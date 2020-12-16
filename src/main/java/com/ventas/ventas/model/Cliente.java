@@ -1,32 +1,49 @@
 package com.ventas.ventas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-//Para hacer una tabla
+
 @Entity
-//Le pasamos el nombre de la tabla
 @Table(name = "cliente")
 
 public class Cliente {
 
-    //Ponemos que sea la id de la tabla y que se genere automaticamente
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
 
-    //Ponemos que sea una columna sin nulos y maximo longitud de 70
+    @NotNull
+    @NotBlank(message = "El nombre es obligatorio.")
+    @Size(min = 3, max = 70, message = "El nombre tiene que tener al menos 3 caracteres.")
     @Column(name = "nombres", nullable = false, length = 70)
     private String nombres;
 
+
+    @NotNull
+    @NotBlank(message = "Los apellidos son obligatorio.")
+    @Size(min = 3, max = 150, message = "Los apellidos tienen que tener al menos 3 caracteres.")
     @Column(name = "apellidos", nullable = false, length = 150)
     private String apellidos;
 
+    @Size(max = 150, message = "La dirección no puede superar los 150 caracteres.")
     @Column(length = 150)
     private String direccion;
 
+
+    @Size(min = 6, message = "Al menos 6 caracteres")
     @Column(length = 10)
     private String telefono;
 
+
+    @NotNull
+    @NotBlank(message = "El email es obligatorio")
+    @Size(min = 10, message = "El email debe ser de al menos 10 caracteres")
+    @Email(message = "El email es incorrecto")
     @Column(nullable = false, length = 150)
     private String email;
 
