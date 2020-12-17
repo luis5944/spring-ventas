@@ -1,6 +1,9 @@
 package com.ventas.ventas.exception;
 
 
+import com.ventas.ventas.VentasApplication;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.util.Map;
 @RestController
 public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(VentasApplication.class);
     //Creamos un POJO (ExceptionResponse) para hacer los mensajes personalizados
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionResponse> manejarExcepciones(Exception e) {
@@ -34,6 +38,11 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        LOGGER.trace("this is a tracer message");
+        LOGGER.debug("this is a debug message");
+        LOGGER.info("Info");
+
+
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
